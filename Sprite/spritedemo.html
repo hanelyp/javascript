@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Sprite Demo</title>
+		<link rel="stylesheet" type="text/css" href="sa.css">
+		<script type="text/javascript" src="Sprite.js"></script>
+		<script>
+			var spritesheet = 'img/staveFisheye.png';
+			var tuxsprite = 'img/tux.png';
+			var listlen = 20;
+			var manysprites = [];
+			onload = function()
+			{
+				testsprite = new Sprite({x:100, y:100, width:64, height:64, sourceX:320-32, sourceY:240-32}, spritesheet, 'gamedisplay');
+				
+				
+				for (var i = 0; i < listlen; i++)
+				{
+					//var t = new Sprite({x:320+200*Math.sin(Math.PI*2*i/listlen), y:240+200*Math.cos(Math.PI*2*i/listlen), width:64, height:64, sourceX:320-32, sourceY:240-32},
+					//	spritesheet, 'gamedisplay');
+					var t = new Sprite({x:320+200*Math.sin(Math.PI*2*i/listlen), y:240+200*Math.cos(Math.PI*2*i/listlen), width:64, height:64, frames:3, directions:8},
+						tuxsprite, 'gamedisplay');
+					manysprites.push(t);
+				}
+				
+				testsprite2 = new Sprite({x:320, y:240, width:64, height:64, sourceX:0, sourceY:0, frames:3, directions:8}, tuxsprite, 'gamedisplay');
+				
+				setInterval(spinme, 20);
+			};
+			
+			var animatespin = 0;
+			spinme = function()
+			{
+				// remove display during updates
+			//	var insertFunction = testsprite.preUpdates('gamedisplay');
+				
+				testsprite.animateTo(null, 100+50*Math.cos(animatespin/15), animatespin++, 1+0.5*Math.sin(animatespin/10));
+				if ((animatespin%10) == 0)
+				{	testsprite2.nextFrame();	}
+				//if ((animatespin%50) == 0)
+				//{	testsprite2.face(animatespin/50);	}
+				testsprite2.face(animatespin/1);
+				for (var i = 0; i < listlen; i++)
+				{
+					//manysprites[i].spinInc();
+					manysprites[i].face(-360*(i+animatespin/50)/listlen + 90, 1);
+					if ((animatespin%5) == 0)	{	manysprites[i].nextFrame(1);	}
+					manysprites[i].animateTo(320+200*Math.sin(Math.PI*2*(i+animatespin/50)/listlen),
+								240+200*Math.cos(Math.PI*2*(i+animatespin/50)/listlen)
+								//1+0.5*Math.sin(animatespin/10)
+					);
+				}
+				
+				// reinsert
+			//	insertFunction();
+			}
+		</script>
+	</head>
+	<body>
+		<div id="gamedisplay" class="gamedisplay"></div>
+	</body>	
+</html>

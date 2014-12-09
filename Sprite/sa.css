@@ -1,0 +1,12 @@
+.gamedisplay{
+	position:relative;
+	height:480px;
+	width:640px;
+	background: url(img/staveFisheye.png);
+/*	transformOrigin: 50% 50%;
+	transform: rotate(15deg);	*/
+	overflow: hidden;
+	margin-left: 100px;
+	margin-top: 100px;
+}
+
